@@ -46,6 +46,8 @@ class lcl_app definition final.
     methods long_std_bin.
     methods long_sorted.
     methods long_hashed.
+    methods long_std_part.
+    methods long_sorted_part.
 
     class-methods main.
 
@@ -212,6 +214,18 @@ class lcl_app implementation.
 
   endmethod.
 
+  method long_std_part.
+
+    field-symbols <i> like line of mt_long_lookups.
+    loop at mt_long_lookups assigning <i>.
+      read table mt_long_std transporting no fields
+        with key
+          key1 = <i>-key1.
+      assert sy-subrc = 0.
+    endloop.
+
+  endmethod.
+
   method long_std_bin.
 
     field-symbols <i> like line of mt_long_lookups.
@@ -238,6 +252,18 @@ class lcl_app implementation.
           key2 = <i>-key2
           key3 = <i>-key3
           key4 = <i>-key4.
+      assert sy-subrc = 0.
+    endloop.
+
+  endmethod.
+
+  method long_sorted_part.
+
+    field-symbols <i> like line of mt_long_lookups.
+    loop at mt_long_lookups assigning <i>.
+      read table mt_long_sorted transporting no fields
+        with key
+          key1 = <i>-key1.
       assert sy-subrc = 0.
     endloop.
 
@@ -280,7 +306,7 @@ class lcl_app implementation.
     create object lo_app.
 
     lo_app->prepare( ).
-    lo_app->mv_num_rounds = 100.
+    lo_app->mv_num_rounds = 10.
 
     lo_app->run( 'std' ).
     lo_app->run( 'std_bin' ).
@@ -294,6 +320,8 @@ class lcl_app implementation.
     lo_app->run( 'long_std_bin' ).
     lo_app->run( 'long_sorted' ).
     lo_app->run( 'long_hashed' ).
+    lo_app->run( 'long_std_part' ).
+    lo_app->run( 'long_sorted_part' ).
 
   endmethod.
 
