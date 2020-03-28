@@ -49,6 +49,12 @@ class lcl_app definition final.
     methods long_std_part.
     methods long_sorted_part.
 
+    methods loop_all.
+    methods loop_std.
+    methods loop_sorted.
+    methods loop_std_starting.
+    methods loop_sorted_starting.
+
     class-methods main.
 
     data mt_std type tt_pair.
@@ -284,6 +290,55 @@ class lcl_app implementation.
 
   endmethod.
 
+  method loop_all.
+
+    field-symbols <i> like line of mt_long_std.
+    data ls_a like <i>-key1.
+    loop at mt_long_std assigning <i>.
+      ls_a = <i>-key1.
+    endloop.
+
+  endmethod.
+
+  method loop_std.
+
+    field-symbols <i> like line of mt_long_std.
+    data ls_a like <i>-key1.
+    loop at mt_long_std assigning <i> where key1 = '25'.
+      ls_a = <i>-key1.
+    endloop.
+
+  endmethod.
+
+  method loop_sorted.
+
+    field-symbols <i> like line of mt_long_sorted.
+    data ls_a like <i>-key1.
+    loop at mt_long_sorted assigning <i> where key1 = '25'.
+      ls_a = <i>-key1.
+    endloop.
+
+  endmethod.
+
+  method loop_std_starting.
+
+    field-symbols <i> like line of mt_long_std.
+    data ls_a like <i>-key1.
+    loop at mt_long_std assigning <i> where key1 cp '2*'.
+      ls_a = <i>-key1.
+    endloop.
+
+  endmethod.
+
+  method loop_sorted_starting.
+
+    field-symbols <i> like line of mt_long_sorted.
+    data ls_a like <i>-key1.
+    loop at mt_long_sorted assigning <i> where key1 cp '2*'.
+      ls_a = <i>-key1.
+    endloop.
+
+  endmethod.
 
   method run.
 
@@ -320,8 +375,14 @@ class lcl_app implementation.
     lo_app->run( 'long_std_bin' ).
     lo_app->run( 'long_sorted' ).
     lo_app->run( 'long_hashed' ).
-    lo_app->run( 'long_std_part' ).
+    " lo_app->run( 'long_std_part' ).
     lo_app->run( 'long_sorted_part' ).
+
+    lo_app->run( 'loop_all' ).
+    lo_app->run( 'loop_std' ).
+    lo_app->run( 'loop_sorted' ).
+    lo_app->run( 'loop_std_starting' ).
+    lo_app->run( 'loop_sorted_starting' ).
 
   endmethod.
 
