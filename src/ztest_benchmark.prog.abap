@@ -43,3 +43,37 @@ class lcl_benchmark implementation.
   endmethod.
 
 endclass.
+
+**********************************************************************
+* RUNNER
+**********************************************************************
+
+class lcl_runner_base definition.
+  public section.
+
+    methods run
+      importing
+        iv_method type string.
+
+    data mv_num_rounds type i.
+
+endclass.
+
+class lcl_runner_base implementation.
+
+  method run.
+
+    data lo_benchmark type ref to lcl_benchmark.
+
+    create object lo_benchmark
+      exporting
+        io_object = me
+        iv_method = iv_method
+        iv_times  = mv_num_rounds.
+
+    lo_benchmark->run( ).
+    lo_benchmark->print( ).
+
+  endmethod.
+
+endclass.
