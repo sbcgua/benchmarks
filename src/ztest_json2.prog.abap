@@ -115,28 +115,28 @@ class lcl_app implementation.
 
   method plain_obj.
 
-    data lo_json type ref to zcl_ajson.
+    data lo_json type ref to zif_ajson.
     data ls_target type ty_plain.
     lo_json = zcl_ajson=>parse( mv_plain_obj ).
-    lo_json->zif_ajson_reader~to_abap( importing ev_container = ls_target ).
+    lo_json->to_abap( importing ev_container = ls_target ).
 
   endmethod.
 
   method deep_obj.
 
-    data lo_json type ref to zcl_ajson.
+    data lo_json type ref to zif_ajson.
     data ls_target type ty_deep3.
     lo_json = zcl_ajson=>parse( mv_deep_obj ).
-    lo_json->zif_ajson_reader~to_abap( importing ev_container = ls_target ).
+    lo_json->to_abap( importing ev_container = ls_target ).
 
   endmethod.
 
   method array.
 
-    data lo_json type ref to zcl_ajson.
+    data lo_json type ref to zif_ajson.
     data ls_target type tt_fragment.
     lo_json = zcl_ajson=>parse( mv_array ).
-    lo_json->zif_ajson_reader~to_abap( importing ev_container = ls_target ).
+    lo_json->to_abap( importing ev_container = ls_target ).
 
   endmethod.
 
