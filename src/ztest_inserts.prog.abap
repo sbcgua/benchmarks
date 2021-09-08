@@ -17,6 +17,9 @@ class lcl_app definition final.
     methods append_ref.
     methods append_field_symbol.
 
+    methods append_value_long.
+    methods append_field_symbol_long.
+
     class-methods main.
     methods run
       importing
@@ -32,6 +35,16 @@ class lcl_app definition final.
         c type d,
         d type string,
       end of ty_dummy.
+
+    types:
+      begin of ty_dummy_long,
+        a type c length 10,
+        b type i,
+        c type d,
+        d type string,
+        pad type c length 500,
+        z type c length 10,
+      end of ty_dummy_long.
 
 endclass.
 
@@ -79,6 +92,41 @@ class lcl_app implementation.
       <rec>-b = sy-index.
       <rec>-c = sy-datum.
       <rec>-d = |Hello { sy-index }|.
+    enddo.
+
+  endmethod.
+
+  method append_value_long.
+
+    data lt_tab type standard table of ty_dummy_long.
+    data ls_rec like line of lt_tab.
+
+    do 1000 times.
+      clear ls_rec.
+      ls_rec-a = '12345678'.
+      ls_rec-b = sy-index.
+      ls_rec-c = sy-datum.
+      ls_rec-d = `12345678`.
+      ls_rec-pad = '12345678'.
+      ls_rec-z = '12345678'.
+      append ls_rec to lt_tab.
+    enddo.
+
+  endmethod.
+
+  method append_field_symbol_long.
+
+    data lt_tab type standard table of ty_dummy_long.
+    field-symbols <rec> like line of lt_tab.
+
+    do 1000 times.
+      append initial line to lt_tab assigning <rec>.
+      <rec>-a = '12345678'.
+      <rec>-b = sy-index.
+      <rec>-c = sy-datum.
+      <rec>-d = `12345678`.
+      <rec>-pad = '12345678'.
+      <rec>-z = '12345678'.
     enddo.
 
   endmethod.
@@ -184,6 +232,8 @@ class lcl_app implementation.
     lo_app->run( 'append_value' ).
     lo_app->run( 'append_ref' ).
     lo_app->run( 'append_field_symbol' ).
+    lo_app->run( 'append_value_long' ).
+    lo_app->run( 'append_field_symbol_long' ).
 
   endmethod.
 
