@@ -13,6 +13,9 @@ class lcl_app definition final.
     methods delete_first.
     methods delete_first_w_check.
 
+    methods append_value.
+    methods append_field_symbol.
+
     class-methods main.
     methods run
       importing
@@ -21,9 +24,48 @@ class lcl_app definition final.
     data mv_num_rounds type i.
     data mt_tab type string_table.
 
+    types:
+      begin of ty_dummy,
+        a type c length 10,
+        b type i,
+        c type d,
+        d type string,
+      end of ty_dummy.
+
 endclass.
 
 class lcl_app implementation.
+
+  method append_value.
+
+    data lt_tab type standard table of ty_dummy.
+    data ls_rec like line of lt_tab.
+
+    do 1000 times.
+      clear ls_rec.
+      ls_rec-a = '12345678'.
+      ls_rec-b = sy-index.
+      ls_rec-c = sy-datum.
+      ls_rec-d = |Hello { sy-index }|.
+      append ls_rec to lt_tab.
+    enddo.
+
+  endmethod.
+
+  method append_field_symbol.
+
+    data lt_tab type standard table of ty_dummy.
+    field-symbols <rec> like line of lt_tab.
+
+    do 1000 times.
+      append initial line to lt_tab assigning <rec>.
+      <rec>-a = '12345678'.
+      <rec>-b = sy-index.
+      <rec>-c = sy-datum.
+      <rec>-d = |Hello { sy-index }|.
+    enddo.
+
+  endmethod.
 
   method fill_table.
 
@@ -122,6 +164,9 @@ class lcl_app implementation.
     lo_app->run( 'delete_last' ).
     lo_app->run( 'delete_first' ).
     lo_app->run( 'delete_first_w_check' ).
+
+    lo_app->run( 'append_value' ).
+    lo_app->run( 'append_field_symbol' ).
 
   endmethod.
 
