@@ -14,6 +14,7 @@ class lcl_app definition final.
     methods delete_first_w_check.
 
     methods append_value.
+    methods append_ref.
     methods append_field_symbol.
 
     class-methods main.
@@ -48,6 +49,21 @@ class lcl_app implementation.
       ls_rec-c = sy-datum.
       ls_rec-d = |Hello { sy-index }|.
       append ls_rec to lt_tab.
+    enddo.
+
+  endmethod.
+
+  method append_ref.
+
+    data lt_tab type standard table of ty_dummy.
+    data lr_rec type ref to ty_dummy.
+
+    do 1000 times.
+      append initial line to lt_tab reference into lr_rec.
+      lr_rec->a = '12345678'.
+      lr_rec->b = sy-index.
+      lr_rec->c = sy-datum.
+      lr_rec->d = |Hello { sy-index }|.
     enddo.
 
   endmethod.
@@ -166,6 +182,7 @@ class lcl_app implementation.
     lo_app->run( 'delete_first_w_check' ).
 
     lo_app->run( 'append_value' ).
+    lo_app->run( 'append_ref' ).
     lo_app->run( 'append_field_symbol' ).
 
   endmethod.
