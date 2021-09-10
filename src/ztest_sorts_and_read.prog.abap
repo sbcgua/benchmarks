@@ -1,4 +1,4 @@
-REPORT ZTEST102.
+REPORT ZTEST_SORTS_AND_READ.
 
 include ztest_benchmark.
 
