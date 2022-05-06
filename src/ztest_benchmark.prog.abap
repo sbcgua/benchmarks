@@ -5,7 +5,7 @@ class lcl_benchmark definition final.
         io_object type ref to object
         iv_method type string
         iv_times  type i.
-    methods run.
+    methods run raising cx_static_check.
     methods print.
 
   private section.
@@ -53,7 +53,10 @@ class lcl_runner_base definition.
 
     methods run
       importing
-        iv_method type string.
+        iv_method type string
+        iv_times type i optional
+      raising
+        cx_static_check.
 
     data mv_num_rounds type i.
 
@@ -64,12 +67,19 @@ class lcl_runner_base implementation.
   method run.
 
     data lo_benchmark type ref to lcl_benchmark.
+    data lv_times type i.
+
+    if iv_times > 0.
+      lv_times = iv_times.
+    else.
+      lv_times = mv_num_rounds.
+    endif.
 
     create object lo_benchmark
       exporting
         io_object = me
         iv_method = iv_method
-        iv_times  = mv_num_rounds.
+        iv_times  = lv_times.
 
     lo_benchmark->run( ).
     lo_benchmark->print( ).
